@@ -17,7 +17,8 @@ public class About extends JFrame implements ActionListener {
     public About(){
         setBounds(400, 100, 400, 500);
         setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("About");
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ImageIcon image = new ImageIcon(ClassLoader.getSystemResource("img/me.jpg"));
         Image image2 = image.getImage().getScaledInstance(260, 260, Image.SCALE_DEFAULT);

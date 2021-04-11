@@ -28,21 +28,28 @@ public class Methods {
         if(!isDarkMode){
             notePad.textArea.setForeground(notePad.darkFgColor);
             notePad.textArea.setBackground(notePad.darkBgColor);
+            notePad.textArea.setCaretColor(notePad.lightBgColor);
         }else {
             notePad.textArea.setForeground(notePad.lightFgColor);
             notePad.textArea.setBackground(notePad.lightBgColor);
+            notePad.textArea.setCaretColor(notePad.darkBgColor);
         }
 
         notePad.darkModeCheckBox.setSelected(!isDarkMode);
 
     }
 
-
     public void onClickNewItem() {
+        if(notePad.hasChanged){
+            createShowWarning();
+            if(notePad.hasChanged) return;
+        }
+
         notePad.textArea.setText("");
         notePad.window.setTitle("Nuevo Archivo");
         fileName = null;
         fileAddress = null;
+        notePad.hasChanged= false;
     }
 
     public void onClickNewWindowItem() {
@@ -50,6 +57,11 @@ public class Methods {
     }
 
     public void onOpenFile() {
+        if(notePad.hasChanged){
+            createShowWarning();
+            if(notePad.hasChanged) return;
+        }
+
         JFileChooser f = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text File", "txt");
         
@@ -86,6 +98,7 @@ public class Methods {
                 FileWriter fw = new FileWriter(fileAddress);
                 fw.write(notePad.textArea.getText());
                 fw.close();
+                notePad.hasChanged = false;
             } catch (Exception e) {
                 System.out.println("There was an error");
             }
@@ -107,14 +120,18 @@ public class Methods {
             FileWriter fw = new FileWriter(fileAddress);
             fw.write(notePad.textArea.getText());
             fw.close();
+            notePad.hasChanged = false;
         } catch (Exception e) {
             System.out.println("There was an error");
         }
     }
 
     public void onExit(){
-        createShowWarning();
-        System.exit(0);
+        if(notePad.hasChanged){
+            createShowWarning();
+        }else{
+            System.exit(0);
+        }
     }
 
     public void onCopy() {
